@@ -7,9 +7,9 @@ WORKDIR /usr/app
 # 复制 Cargo 配置文件并仅安装依赖，以利用 Docker 的层缓存
 COPY ./listener/Cargo.toml ./listener/Cargo.lock ./
 RUN mkdir ./src && \
-    echo "fn main() {}" >./listener/src/main.rs && \
+    echo "fn main() {}" >./src/main.rs && \
     cargo build --release && \
-    rm -rf./listener/src
+    rm -rf./src
 
 # 复制完整的源代码并构建应用
 COPY ./listener/src ./src
