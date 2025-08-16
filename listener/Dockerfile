@@ -9,7 +9,7 @@ COPY ./listener/Cargo.toml ./listener/Cargo.lock ./
 RUN mkdir ./src && \
     echo "fn main() {}" >./src/main.rs && \
     cargo build --release && \
-    rm -rf./src
+    rm -rf ./src
 
 # 复制完整的源代码并构建应用
 COPY ./listener/src ./src

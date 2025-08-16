@@ -8,3 +8,4 @@
 /worker/.venv/
 /listener/target/
 /api/.venv/
+/target/
