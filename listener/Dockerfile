@@ -12,7 +12,7 @@ RUN mkdir ./listener/src && \
     rm -rf./listener/src
 
 # 复制完整的源代码并构建应用
-COPY./listener/src ./src
+COPY ./listener/src ./src
 RUN cargo build --release
 
 # ---- Final Stage ----
