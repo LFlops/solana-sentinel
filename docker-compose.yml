@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  # Python FastAPI 服务
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      -.env
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - sentinel_net
+
+  # Python Celery Worker 服务
+  worker:
+    build:
+      context: .
+      dockerfile: worker/Dockerfile
+    env_file:
+      -.env
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - sentinel_net
+
+  # Rust 事件监听器服务
+  listener:
+    build:
+      context: .
+      dockerfile: listener/Dockerfile
+    env_file:
+      -.env
+    depends_on:
+      - redis
+    networks:
+      - sentinel_net
+
+  # PostgreSQL 数据库
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432" # 仅用于本地调试，生产环境可移除
+    networks:
+      - sentinel_net
+
+  # Redis 消息代理
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379" # 仅用于本地调试，生产环境可移除
+    networks:
+      - sentinel_net
+
+# 定义网络和数据卷
+networks:
+  sentinel_net:
+    driver: bridge
+
+volumes:
+  postgres_data:
