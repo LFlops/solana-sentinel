@@ -1,6 +1,6 @@
 # --- 第一阶段：构建器 (Builder) ---
 # 这个阶段负责编译和安装所有依赖
-FROM python:3.11-slim AS builder
+FROM python:3.12-slim AS builder
 
 # 1. 安装 uv
 RUN pip install uv
