@@ -13,7 +13,7 @@ ENV PATH="$VENV_PATH/bin:$PATH"
 
 # 3. 拷贝依赖文件并安装
 WORKDIR /app
-COPY pyproject.toml .
+COPY ./pyproject.toml .
 # --system 指示 uv 安装到当前激活的虚拟环境中
 RUN uv pip install --system --no-cache .
 
