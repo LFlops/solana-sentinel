@@ -16,18 +16,19 @@ jobs:
 
     strategy:
       matrix:
-        service: [api, worker, listener]
+        service: [ api, worker, listener ]
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set lowercase repository
+        id: repo_lower
         run: |
-          # 将 github.repository 转为小写
-          echo "REPO_LOWER=${{ github.repository }}" >> $GITHUB_ENV
+          REPO_LOWER="${{ github.repository }}"
           REPO_LOWER="${REPO_LOWER,,}"
-          echo "REPO_LOWER=$REPO_LOWER" >> $GITHUB_ENV
+          echo "REPO_LOWER=$REPO_LOWER"
+          echo "repo_lower=$REPO_LOWER" >> $GITHUB_OUTPUT  # GITHUB_OUTPUT 用于 outputs
 
 
       - name: Log in to the Container registry
@@ -44,5 +45,5 @@ jobs:
           file: ./${{ matrix.service }}/Dockerfile
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ env.REPO_LOWER }}-${{ matrix.service }}:latest
-            ${{ env.REGISTRY }}/${{ env.REPO_LOWER}}-${{ matrix.service }}:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ steps.repo_lower.outputs.repo_lower }}-${{ matrix.service }}:latest
+            ${{ env.REGISTRY }}/${{ steps.repo_lower.outputs.repo_lower }}-${{ matrix.service }}:${{ github.sha }}
