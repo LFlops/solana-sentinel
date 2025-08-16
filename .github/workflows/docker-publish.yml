@@ -33,6 +33,8 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          dockerfile: ./${{ matrix.service }}/Dockerfile
+          file: ./${{ matrix.service }}/Dockerfile
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository_owner.toLowerCase() }}/${{ github.event.repository.name }}-${{ matrix.service }}:latest
+          tags: |
+            ${{ env.REGISTRY }}/${{ github.repository }}-${{ matrix.service }}:latest
+            ${{ env.REGISTRY }}/${{ github.repository }}-${{ matrix.service }}:${{ github.sha }}
