@@ -42,4 +42,4 @@ ENV PATH="/opt/venv/bin:$PATH"
 EXPOSE 8000
 
 # 容器启动时运行的命令
-MD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "-b", "0.0.0.0:8000", "main:app"]
+CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "-b", "0.0.0.0:8000", "main:app"]
