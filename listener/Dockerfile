@@ -5,8 +5,8 @@ FROM rust:1-slim as builder
 WORKDIR /usr/src/app
 
 # 复制 Cargo 配置文件并仅安装依赖，以利用 Docker 的层缓存
-COPY./listener/Cargo.toml ./listener/Cargo.lock ./
-RUN mkdir./listener/src && \
+COPY ./listener/Cargo.toml ./listener/Cargo.lock ./
+RUN mkdir ./listener/src && \
     echo "fn main() {}" >./listener/src/main.rs && \
     cargo build --release && \
     rm -rf./listener/src
