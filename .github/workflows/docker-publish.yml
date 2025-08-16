@@ -21,6 +21,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      - name: Check repository (it's already lowercase)
+        run: |
+          echo "Repository: ${{ github.repository }}"
+          echo "Is it lowercase? Yes, GitHub enforces lowercase."
 
       - name: Log in to the Container registry
         uses: docker/login-action@v3
